@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"God Mode"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Disfigure.exe
+  Version: 
+  Date   : 2023-09-06
+  Author : timne
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Health,GameAssembly.dll,FF 4B 44 48 8B 8B C0 00 00 00) // should be unique
+alloc(newmem,$1000,Health)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  //dec [rbx+44]
+  nop
+  mov rcx,[rbx+000000C0]
+  jmp return
+
+Health:
+  jmp newmem
+  nop 5
+return:
+registersymbol(Health)
+
+[DISABLE]
+
+Health:
+  db FF 4B 44 48 8B 8B C0 00 00 00
+
+unregistersymbol(Health)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+36B108
+
+GameAssembly.dll+36B0E5: 74 21                 - je GameAssembly.dll+36B108
+GameAssembly.dll+36B0E7: 48 85 F6              - test rsi,rsi
+GameAssembly.dll+36B0EA: 0F 84 4A 06 00 00     - je GameAssembly.dll+36B73A
+GameAssembly.dll+36B0F0: 33 D2                 - xor edx,edx
+GameAssembly.dll+36B0F2: 48 8B CE              - mov rcx,rsi
+GameAssembly.dll+36B0F5: E8 26 39 FE FF        - call GameAssembly.dll+34EA20
+GameAssembly.dll+36B0FA: 45 33 C0              - xor r8d,r8d
+GameAssembly.dll+36B0FD: 48 8B D0              - mov rdx,rax
+GameAssembly.dll+36B100: 48 8B CE              - mov rcx,rsi
+GameAssembly.dll+36B103: E8 48 4C E7 00        - call GameAssembly.dll+11DFD50
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+36B108: FF 4B 44              - dec [rbx+44]
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+36B10B: 48 8B 8B C0 00 00 00  - mov rcx,[rbx+000000C0]
+GameAssembly.dll+36B112: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+36B115: 0F 84 1F 06 00 00     - je GameAssembly.dll+36B73A
+GameAssembly.dll+36B11B: 33 D2                 - xor edx,edx
+GameAssembly.dll+36B11D: E8 BE 44 F9 FF        - call GameAssembly.dll+2FF5E0
+GameAssembly.dll+36B122: 80 BB 61 02 00 00 00  - cmp byte ptr [rbx+00000261],00
+GameAssembly.dll+36B129: 0F 84 E2 00 00 00     - je GameAssembly.dll+36B211
+GameAssembly.dll+36B12F: 33 D2                 - xor edx,edx
+GameAssembly.dll+36B131: 48 8B CF              - mov rcx,rdi
+GameAssembly.dll+36B134: E8 37 66 ED 00        - call GameAssembly.dll+1241770
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
+      <Description>"Set Max Hearts to 5 (when it adds to hearts)"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Disfigure.exe
+  Version: 
+  Date   : 2023-09-06
+  Author : timne
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(MaxHearts,GameAssembly.dll,FF 81 E8 01 00 00) // should be unique
+alloc(newmem,$1000,MaxHearts)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  inc [rcx+000001E8]
+  mov [rcx+000001E8],$5
+  jmp return
+
+MaxHearts:
+  jmp newmem
+  nop
+return:
+registersymbol(MaxHearts)
+
+[DISABLE]
+
+MaxHearts:
+  db FF 81 E8 01 00 00
+
+unregistersymbol(MaxHearts)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+36AB74
+
+GameAssembly.dll+36AB56: 5F                    - pop rdi
+GameAssembly.dll+36AB57: C3                    - ret 
+GameAssembly.dll+36AB58: 8B 43 44              - mov eax,[rbx+44]
+GameAssembly.dll+36AB5B: 48 8B 8B 80 00 00 00  - mov rcx,[rbx+00000080]
+GameAssembly.dll+36AB62: FF C0                 - inc eax
+GameAssembly.dll+36AB64: 89 43 44              - mov [rbx+44],eax
+GameAssembly.dll+36AB67: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+36AB6A: 74 65                 - je GameAssembly.dll+36ABD1
+GameAssembly.dll+36AB6C: 3B 81 E8 01 00 00     - cmp eax,[rcx+000001E8]
+GameAssembly.dll+36AB72: 7E 06                 - jle GameAssembly.dll+36AB7A
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+36AB74: FF 81 E8 01 00 00     - inc [rcx+000001E8]
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+36AB7A: 48 8B 8B C0 00 00 00  - mov rcx,[rbx+000000C0]
+GameAssembly.dll+36AB81: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+36AB84: 74 4B                 - je GameAssembly.dll+36ABD1
+GameAssembly.dll+36AB86: 33 D2                 - xor edx,edx
+GameAssembly.dll+36AB88: E8 53 4A F9 FF        - call GameAssembly.dll+2FF5E0
+GameAssembly.dll+36AB8D: 48 8B 0D 0C F9 5F 01  - mov rcx,[GameAssembly.dll+196A4A0]
+GameAssembly.dll+36AB94: 83 B9 E0 00 00 00 00  - cmp dword ptr [rcx+000000E0],00
+GameAssembly.dll+36AB9B: 75 05                 - jne GameAssembly.dll+36ABA2
+GameAssembly.dll+36AB9D: E8 EE DE EB FF        - call GameAssembly.il2cpp_runtime_class_init
+GameAssembly.dll+36ABA2: 33 D2                 - xor edx,edx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"Fast Leveling (Each xp Grants 1 level dont go beyond lvl 99)"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Disfigure.exe
+  Version: 
+  Date   : 2023-09-07
+  Author : timne
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(XP,GameAssembly.dll,89 83 68 02 00 00 33 D2) // should be unique
+alloc(newmem,$1000,XP)
+
+label(code)
+label(return)
+
+newmem:
+   //mov eax,268435455 Raising it too high will cause the game to crash.
+   //mov eax,16777000 lvl 101 is too much with some guns 99 -&gt; 100 seems to cause the crash
+   mov eax,12777000
+code:
+  mov [rbx+00000268],eax
+  jmp return
+
+XP:
+  jmp newmem
+  nop
+return:
+registersymbol(XP)
+
+[DISABLE]
+
+XP:
+  db 89 83 68 02 00 00
+
+unregistersymbol(XP)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+36A8CB
+
+GameAssembly.dll+36A8A8: 45 33 C0              - xor r8d,r8d
+GameAssembly.dll+36A8AB: 33 D2                 - xor edx,edx
+GameAssembly.dll+36A8AD: 48 8B CE              - mov rcx,rsi
+GameAssembly.dll+36A8B0: E8 DB 7A E7 00        - call GameAssembly.dll+11E2390
+GameAssembly.dll+36A8B5: 84 C0                 - test al,al
+GameAssembly.dll+36A8B7: 74 18                 - je GameAssembly.dll+36A8D1
+GameAssembly.dll+36A8B9: 48 85 F6              - test rsi,rsi
+GameAssembly.dll+36A8BC: 0F 84 0F 03 00 00     - je GameAssembly.dll+36ABD1
+GameAssembly.dll+36A8C2: 8B 83 68 02 00 00     - mov eax,[rbx+00000268]
+GameAssembly.dll+36A8C8: 03 46 30              - add eax,[rsi+30]
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+36A8CB: 89 83 68 02 00 00     - mov [rbx+00000268],eax
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+36A8D1: 33 D2                 - xor edx,edx
+GameAssembly.dll+36A8D3: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+36A8D6: E8 15 AC FF FF        - call GameAssembly.dll+3654F0
+GameAssembly.dll+36A8DB: 45 33 C0              - xor r8d,r8d
+GameAssembly.dll+36A8DE: 48 8B D0              - mov rdx,rax
+GameAssembly.dll+36A8E1: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+36A8E4: E8 37 5A E7 00        - call GameAssembly.dll+11E0320
+GameAssembly.dll+36A8E9: 48 8B 8B F0 02 00 00  - mov rcx,[rbx+000002F0]
+GameAssembly.dll+36A8F0: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+36A8F3: 0F 84 D8 02 00 00     - je GameAssembly.dll+36ABD1
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <LuaScript>attachlist=getAutoAttachList()
+stringlist_add(attachlist,"Disfigure.exe");
+
+function cycleFullCompact(sender,force) local state = not(compactmenuitem.Caption == 'Compact View Mode'); if force~=nil then state = not force end; compactmenuitem.Caption = state and 'Compact View Mode' or 'Full View Mode'; getMainForm().Splitter1.Visible = state; getMainForm().Panel5.Visible    = state; end; function addCompactMenu() if compactmenualreadyexists then return end; local parent = getMainForm().Menu.Items; compactmenuitem = createMenuItem(parent); parent.add(compactmenuitem); compactmenuitem.Caption = 'Compact View Mode'; compactmenuitem.OnClick = cycleFullCompact; compactmenualreadyexists = 'yes'; end; addCompactMenu(); cycleFullCompact(nil,true)
+
+
+</LuaScript>
+</CheatTable>
